@@ -1,0 +1,342 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>frame</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<style>
+			body, html {
+				background-color: #ffffff;
+			}
+			#main {
+				padding: 1em;
+			}
+			/*用户头像，用户名*/
+			#user_name {
+				width: 100%;
+				height: 53px;
+			}
+			#user_name.logout {
+				background-color: #03a9f4;
+				line-height: 53px;
+				text-align: center;
+				font-size: 1.4em;
+				color: #ffffff;
+			}
+			#user_name.logout:active {
+				background-color: #D5A706;
+			}
+			#user_name .user_icon {
+				width: 53px;
+				height: 53px;
+				display: block;
+				float: left;
+			}
+			#user_name .nickname {
+				color: #FFF;
+				height: 53px;
+				line-height: 53px;
+				text-indent: 1em;
+			}
+			/*用户头像，用户名end*/
+			/*我的订单等*/
+			#my_list {
+				width: 100%;
+				height: 90px;
+				margin-top: 11px;
+			}
+			#my_list .my_list_inner {
+				width: 32%;
+				height: 100%;
+				position: relative;
+			}
+			#my_list .my_list_inner a {
+				color: #6ab494;
+				text-align: center;
+				width: 100%;
+				position: absolute;
+				bottom: 10px;
+			}
+			#my_list .list {
+				float: left;
+				background: #E5E5E5 url(../image/main_foot_message1.png) center 15px no-repeat;
+				background-size: 45px;
+			}
+			#my_list .ticket {
+				float: left;
+				background: #E5E5E5 url(../image/main_foot_home1.png) center 15px no-repeat;
+				background-size: 45px;
+				margin-left: 2%;
+			}
+			#my_list .ticket_out {
+				float: right;
+				background: #E5E5E5 url(../image/main_foot_home2.png) center 15px no-repeat;
+				background-size: 45px;
+			}
+			/*我的订单等end*/
+			/*其它*/
+			.etc {
+				width: 100%;
+				height: 134px;
+				margin-top: 12px;
+			}
+			.etc .title {
+				height: 38px;
+				line-height: 38px;
+				color: #616161;
+				display: block;
+			}
+			.etc .coupon, .etc .options {
+				display: block;
+				height: 45px;
+				line-height: 45px;
+				color: #323237;
+				background-color: #E5E5E5;
+				margin-bottom: 5px;
+				text-indent: 15px;
+			}
+			.etc .count {
+				color: #EFB501;
+				text-indent: 0;
+			}
+			/*其它end*/
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<span style="color: red;margin-bottom: 18px;">您当前的群组为：<b id="CurrGName"></b></span>
+				<div id="user_name" class="logout" onclick="AddNewGroup()" tapmode>
+					创建群组
+				</div>
+				<div id="my_list">
+					<div class="my_list_inner list" tapmode onclick="AddNewActor()">
+						<a> 邀请成员 </a>
+					</div>
+					<div class="my_list_inner ticket" tapmode onclick="IntoGroup()">
+						<a> 加入群组 </a>
+					</div>
+					<div class="my_list_inner ticket_out" tapmode onclick="OutCurrGroup()">
+						<a> 离开群组 </a>
+					</div>
+				</div>
+				<div class="etc">
+					<label class="title">同群组成员</label>
+					<div id="curr_actor">
+						<!--<a class="coupon cus_act_li " tapmode> 江Sir </a>
+						<a class="coupon cus_act_li " tapmode> 宝坤 </a>
+						<a class="coupon cus_act_li " tapmode> 玉芳 </a>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/myapi.js"></script>
+	<script type="text/javascript" src="../script/aui-alert.js"></script>
+	<script>
+		var CurrGroupName, IsHaveGroup, IsOuter, V_gname, V_list;
+		apiready = function() {
+			GetGroupState();
+			GetActor();
+		}
+		function GetGroupState() {
+			V_gname = $api.byId('CurrGName');
+			var paramObj = {
+				"userid" : $api.getStorage('userMsg').ID
+			};
+			$myapi.requestByPost(true, "加载中...", "GetGroupByUser", paramObj, function(ret, err) {
+				if (ret) {
+					var ary = JSON.parse(ret);
+					if (ary && ary.length > 0) {
+						CurrGroupName = ary[0].CURRGNAME;
+						IsHaveGroup = ary[0].IS_HAVEGROUP;
+						IsOuter = ary[0].IS_OUTER;
+						$api.html(V_gname, ary[0].CURRGNAME);
+					}
+				}
+			});
+		}
+
+		function GetActor() {
+			V_list = $api.byId('curr_actor');
+			var paramObj = {
+				"userid" : $api.getStorage('userMsg').ID
+			};
+			$myapi.requestByPost(true, "加载中...", "GetCurrentGroupActorByCurrentUser", paramObj, function(ret, err) {
+				if (ret) {
+					var ary = JSON.parse(ret);
+					if (ary && ary.length > 0) {
+						var item = '';
+						for (var i = 0; i < ary.length; i++) {
+							var n = i + 1;
+							item += '<a class="coupon cus_act_li " tapmode> ' + ary[i].NAME + ' </a> '
+						}
+					}
+					$api.html(V_list, item);
+				}
+			});
+		}
+
+		function AddNewGroup() {
+			if (IsHaveGroup == "1") {
+				$myapi.showToast('无法创建群组！ 你已加入其他群组！');
+				//$api.toast('无法创建群组！ 你已加入其他群组', 1200);
+			} else {
+				api.prompt({
+					title : '请输入群组名称',
+					//msg : 'testmsg',
+					buttons : ['确定', '取消']
+				}, function(ret, err) {
+					if (ret.buttonIndex == 1) {
+						var paramObj_CareteGroup = {
+							"userid" : $api.getStorage('userMsg').ID,
+							"groupname" : ret.text
+						};
+						$myapi.requestByPost(true, "创建中...", "CreatGroup", paramObj_CareteGroup, function(ret, err) {
+							if (ret) {
+								var ary = JSON.parse(ret);
+								if (ary && ary.length > 0) {
+									//$api.toast(ary[0].TITLE, ary[0].MESSAGE, 2000);
+									api.alert({
+										msg : ary[0].TITLE + " " + ary[0].MESSAGE
+									});
+									GetGroupState();
+									GetActor();
+									api.execScript({
+										name : 'win_home',
+										script : 'GetGroupState()'//
+									});
+								}
+							}
+						});
+						//api.alert({
+						//msg : ret.text
+						//});
+					}
+				});
+			}
+		}
+
+		function AddNewActor() {
+			if (IsHaveGroup == "0") {
+				$myapi.showToast('暂时无法邀请! 您尚未加入群组！');
+				//$api.toast('', 1200);
+			} else {
+				api.prompt({
+					title : '请输入邀请的名字或电话',
+					//msg : 'testmsg',
+					buttons : ['确定', '取消']
+				}, function(ret, err) {
+					if (ret.buttonIndex == 1) {
+						var paramObj_CareteGroup = {
+							"userid" : $api.getStorage('userMsg').ID,
+							"userid_other" : ret.text
+						};
+						$myapi.requestByPost(true, "邀请中...", "AddNewActor", paramObj_CareteGroup, function(ret, err) {
+							if (ret) {
+								var ary = JSON.parse(ret);
+								if (ary && ary.length > 0) {
+									//$api.toast(ary[0].TITLE, ary[0].MESSAGE, 2000);
+									api.alert({
+										msg : ary[0].TITLE + " " + ary[0].MESSAGE
+									});
+									GetGroupState();
+									GetActor();
+								}
+							}
+						});
+						//api.alert({
+						//	msg : ret.text
+						//});
+					}
+				});
+			}
+		}
+
+		function IntoGroup() {
+			if (IsHaveGroup == "1") {
+				$myapi.showToast('无法加入其他群组! 您已加入群组！');
+				//$api.toast('无法加入其他群组! 您已加入群组', 1200);
+			} else {
+				api.prompt({
+					title : '请输入你要加入的群组名称',
+					//msg : 'testmsg',
+					buttons : ['确定', '取消']
+				}, function(ret, err) {
+					if (ret.buttonIndex == 1) {
+						var paramObj_CareteGroup = {
+							"userid" : $api.getStorage('userMsg').ID,
+							"groupname" : ret.text
+						};
+						$myapi.requestByPost(true, "加入中...", "IntoGroup", paramObj_CareteGroup, function(ret, err) {
+							if (ret) {
+								var ary = JSON.parse(ret);
+								if (ary && ary.length > 0) {
+									//$api.toast(ary[0].TITLE, ary[0].MESSAGE, 2000);
+									api.alert({
+										msg : ary[0].TITLE + " " + ary[0].MESSAGE
+									});
+									GetGroupState();
+									GetActor();
+									api.execScript({
+										name : 'win_home',
+										script : 'GetGroupState()'
+									});
+								}
+							}
+						});
+						//api.alert({
+						//msg : ret.text
+						//});
+					}
+				});
+			}
+		}
+
+		function OutCurrGroup() {
+			if (IsOuter == "1") {
+				$api.toast('操作重复! 您当前正在退出审核', 1200);
+			} else {
+				if (IsHaveGroup == "0") {
+					$myapi.showToast('无法退出群组!您尚未加入群组！');
+					//$api.toast('无法退出群组!', '您尚未加入群组', 1200);
+				} else {
+					api.confirm({
+						title : '退出群组',
+						msg : '是否退出当前群组',
+						buttons : ['确定', '取消']
+					}, function(ret, err) {
+						if (ret.buttonIndex == 1) {
+							var paramObj_CareteGroup = {
+								"userid" : $api.getStorage('userMsg').ID
+							};
+							$myapi.requestByPost(true, "退出群组中...", "OutCurrGroup", paramObj_CareteGroup, function(ret, err) {
+								if (ret) {
+									var ary = JSON.parse(ret);
+									if (ary && ary.length > 0) {
+										//$api.toast(ary[0].TITLE, ary[0].MESSAGE, 2000);
+										api.alert({
+											msg : ary[0].TITLE + " " + ary[0].MESSAGE
+										});
+										GetGroupState();
+										GetActor();
+										api.execScript({
+											name : 'win_home',
+											script : 'GetGroupState()'
+										});
+									}
+								}
+							});
+							//api.alert({
+							//msg : '点击了确定'
+							//});
+						}
+					});
+				}
+			}
+		}
+	</script>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>frame</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" href="../css/timeline_main.css" />
+		<link rel="stylesheet" href="../css/timelinestyle.css" />
+	</head>
+	<style>
+		h2.top_title {
+			border-bottom: none;
+			background: none;
+			text-align: center;
+			line-height: 32px;
+			font-size: 20px
+		}
+		h2.top_title span {
+			font-size: 12px;
+			color: #666;
+			font-weight: 500
+		}
+	</style>
+	<body>
+		<div id="header">
+			<div id="logo"></div>
+		</div>
+		<!--<h2 class="top_title">记一笔</h2>-->
+		<section id="cd-timeline" class="cd-container" >
+			<div id="timelist"></div>
+			<!--<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-movie"></div>
+			<div class="cd-timeline-content">
+			<h2>苏翅：牙膏+烟+水+电费一哈155块钱</h2>
+			<p>
+			没发表内容。 <span style="font-style: italic"> <span style="color: red">||</span> <u>参与人员：江Sir，秋妹儿，宝坤，兵哥。</u></span>
+			</p>
+			<a href="#" class="cd-read-more" target="_blank">有异议</a>
+			<span class="cd-date" style="color: red;font-style: bold">2017-02-04</span>
+			</div>
+			</div>-->
+		</section>
+		<div id="footer">
+			<p id="ft_msg">
+				下拉加载更多数据
+			</p>
+		</div>
+	</body>
+	</body> <script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/myapi.js"></script>
+	<script>
+		var curr, rows, V_list, Over;
+		apiready = function() {
+			curr = 0;
+			rows = 10;
+			GetMoreInfo(0, rows);
+			api.addEventListener({
+				name : 'scrolltobottom'
+			}, function(ret, err) {
+				//api.alert({msg: '已联网'});
+				if (!Over) {
+					curr += 1;
+					GetMoreInfo(curr, rows);
+				}
+			});
+		}
+		function GetMoreInfo(page, rows) {
+			V_list = $api.byId('timelist');
+			var paramObj = {
+				"userid" : $api.getStorage('userMsg').ID,
+				"page" : page,
+				"rows" : rows
+			};
+			$myapi.requestByPost(true, "加载中...", "TimeLine_List", paramObj, function(ret, err) {
+				if (ret) {
+					var ary = JSON.parse(ret);
+					if (ary && ary.length > 0) {
+						if (ary[0].OVER == 0 || ary[0].OVER == "0") {
+							var item = '';
+							for (var i = 0; i < ary.length; i++) {
+								var pic;
+								item += '<div class="cd-timeline-block">';
+								if (i % 2 == 0) {
+									pic = 'picture';
+								} else {
+									pic = 'movie';
+								}
+								item += '<div class="cd-timeline-img cd-' + pic + '" ></div>';
+								item += '<div class="cd-timeline-content">';
+								item += '<h2>' + ary[i].UNAME + '：' + ary[i].TITLE + '</h2>';
+								item += '<p>';
+								item += ary[i].CONTENT + '<span style="font-style: italic"> <span style="color: red">||</span>';
+								item += '<u>参与人员：' + ary[i].ACTOR + '。</u></span>';
+								item += '</p>';
+								item += '<a href="#" class="cd-read-more" id="btn_zan_' + ary[i].ACC_ID + '">赞</a>';
+								item += '<span class="cd-date" style="color: red;font-style: bold">' + ary[i].DATE + '</span>';
+								item += '</div>';
+								item += '</div>';
+							}
+							console.debug(item);
+						} else {
+							var ft = $api.byId('ft_msg');
+							var msg = ary[0].MESSAGE;
+							console.debug(msg);
+							$api.html(ft, msg);
+							Over = ary[0].OVER;
+							return;
+						}
+						if ( page = 0 || page == "0") {
+							$api.html(V_list, item);
+						} else {
+							$api.append(V_list, item);
+						}
+					}
+				}
+			});
+		}
+	</script>
+</html>

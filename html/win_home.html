@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<!--<link rel="stylesheet" type="text/css" href="../css/api.css" />-->
+		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style>
+		.header {
+				padding: 0.75 rem;
+			}
+			.swipe {
+				overflow: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				overflow: hidden;
+				position: relative;
+			}
+			.swipe-wrap .swipe-con {
+				float: left;
+				position: relative;
+			}
+			.swipe-wrap .swipe-con img {
+				width: 100%;
+				vertical-align: middle;
+			}
+			#main {
+				padding: 2px;
+				background-color: #e5e5e5;
+			}
+			#main .flex-vertical .layout {
+				background: #e66961 url() right bottom no-repeat;
+				margin: .3rem;
+				padding: .3rem;
+				background-size: auto 50%;
+				line-height: 2rem;
+				color: white;
+				font-size: 1.8 rem;
+			}
+			#main .flex-vertical .layout p {
+				font-size: 1rem;
+			}
+			#main .flex-vertical .layout.ic-hot {
+				background-image: url(../image/ic-hot.png);
+			}
+			#main .flex-vertical .layout.ic-article {
+				background-image: url(../image/ic-article.png);
+				background-color: #6ab494;
+			}
+			#main .flex-vertical .layout.ic-tag {
+				background-image: url(../image/ic-tag.png);
+				background-color: #9e9a8d;
+				font-size: 1.6 rem;
+			}
+			#main .flex-vertical .layout.ic-coffee {
+				background-image: url(../image/ic-coffee.png);
+				background-color: #ebd275;
+				font-size: 1.6 rem;
+			}
+			#main .flex-vertical .layout.ic-shop {
+				background-image: url(../image/ic-shop.png);
+				background-color: #6ab494;
+			}
+			#main .flex-vertical .layout.ic-like {
+				background-image: url(../image/ic-like.png);
+				background-color: #d8c09d;
+				font-size: 1.6 rem;
+			}
+			#main .flex-vertical .layout.ic-lable {
+				background-image: url(../image/ic-lable.png);
+				font-size: 1.2 rem;
+			}
+			#main .flex-vertical .layout.ic-more {
+				background-image: url(../image/ic-more.png);
+				background-color: #ebd275;
+				font-size: 1.2 rem;
+				background-size: 50% auto;
+				background-position: center right;
+			}
+			.flex-2 {
+				-webkit-box-flex: 2;
+				-webkit-flex: 2;
+				flex: 2;
+			}
+			.hover {
+				opacity: .8;
+			}
+			.user-info {
+				/*background-color: #ffffff;*/
+				padding: 0.75 rem 0;
+			}
+			img.avatar {
+				display: block;
+				margin: 0 auto;
+				width: 20%;
+			}
+			.aui-list .aui-list-header {
+				background-color: #ffffff;
+				line-height: 1.2 rem;
+			}
+			.aui-list .aui-list-item {
+				background-color: #f8f6ef;
+			}
+		</style>
+	</head>
+	<body>
+	<header class="aui-bar aui-bar-nav aui-text-left header" id="header" style="height: 4.6em;position:fixed;top:0;left:0;">
+			<h1 style="margin-top: 1.1rem;margin-left: 1rem"><a class="aui-btn aui-pull-right" tapmode > <i class="aui-iconfont aui-icon-question"></i> </a> LifeAccount 1.0 </h1>
+		</header>
+		<section class="aui-content user-info aui-text-center aui-margin-b-15" style="margin-top:5.2rem; ">
+			<img src="../image/head_male.png" class="avatar aui-img-round">
+			<h2 class="aui-margin-t-15" ><b id="t_username">A000 </b><small><i class="aui-iconfont aui-icon-cert aui-text-danger"></i></small></h2>
+			<div class="aui-row aui-margin-t-15">
+				<div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
+					<div class="aui-label aui-label-primary">
+						当月个人消费:
+					</div>
+				</div>
+				<div class="aui-col-xs-6 aui-text-left aui-padded-l-10">
+					￥<b id="t_xiaofei">100.00</b>
+				</div>
+			</div>
+		</section>
+		<div id="wrap" class="flex-wrap flex-vertical" >
+			<div id="main" class="flex-wrap flex-con" >
+				<div class="flex-con flex-wrap flex-vertical">
+					<div tapmode="hover" id="jizhang" onclick="funOpenArticle( this );" class="flex-wrap flex-con flex-2 layout-wrap">
+						<div class="flex-con layout ic-shop">
+							<h1>记一笔</h1>
+							<p style="color: white">
+								打开就能记录
+							</p>
+						</div>
+					</div>
+					<div tapmode="hover" id="zhangdan"  onclick="funOpenArticle( this );"  class="flex-wrap flex-con flex-2 layout-wrap">
+						<div class="flex-con layout ic-tag">
+							<h3>账单</h3>
+							<p style="color: white">
+								记录群组及个人消费情况
+							</p>
+						</div>
+					</div>
+					<!--<div class="flex-wrap flex-con"></div>-->
+					<!--<div tapmode="hover" onclick="funOpenArticle( this );"  class="flex-wrap flex-con layout-wrap">
+					<div class="flex-con layout  ic-article">
+					<h6>标题3</h6>
+					<p>
+					简介
+					</p>
+					</div>
+					</div>-->
+				</div>
+				<div class="flex-wrap flex-con flex-vertical">
+					<div tapmode="hover" id="qunzu" onclick="funOpenArticle( this );"  class="flex-wrap flex-con layout-wrap">
+						<div class="flex-con layout ic-coffee">
+							<h4>群组</h4>
+							<p>
+								<h3 style="color: white">建立群组，查看成员</h3>
+							</p>
+						</div>
+					</div>
+					<div tapmode="hover"  id="jiyibi" onclick="funOpenArticle( this );"  class="flex-wrap flex-con flex-2 layout-wrap">
+						<div class="flex-con layout ic-hot">
+							<h1>时间轴</h1>
+							<p style="color: white">
+								通过时间轴的方式记录日常消费情况
+							</p>
+						</div>
+					</div>
+					<div tapmode="hover" id="qita" onclick="funOpenArticle( this );"  class="flex-wrap flex-con layout-wrap">
+						<div class="flex-con layout ic-like" style="color: white">
+							<h3>个人信息</h3>
+							<p style="color: white">
+								个人信息管理中心
+							</p>
+						</div>
+					</div>
+					<!--<div class="flex-wrap flex-con">-->
+						<!--<div tapmode="hover" onclick="funOpenArticle( this );"  class="flex-wrap flex-con layout-wrap">
+						<div class="flex-con layout ic-lable">
+						<h6>标题7</h6>
+						<p>
+						简介
+						</p>
+						</div>
+						</div>
+						<div tapmode="hover" onclick="funOpenArticle( this );"  class="flex-wrap flex-con layout-wrap">
+						<div class="flex-con layout ic-more">
+						<h6>标题8</h6>
+						<p>
+						简介
+						</p>
+						</div>
+						</div>-->
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/myapi.js"></script>
+<script type="text/javascript" src="../script/swipe.js"></script>
+<script type="text/javascript">
+	var ul;
+	var uname, uxiaofei;
+	var ishavegroup;
+	apiready = function() {
+		uname = $api.byId('t_username');
+		uxiaofei = $api.byId('t_xiaofei');
+		//ul = $api.byId('bigimg');
+		//GetIndexImg();
+		GetUserInfo();
+		GetGroupState();
+	};
+	var mySwipe = new Swipe($api.dom('.swipe'), {
+		speed : 400,
+		auto : 3000,
+		continuous : true,
+		disableScroll : false,
+		stopPropagation : false,
+		transitionEnd : function(index, elem) {
+		}
+	});
+	function GetGroupState() {
+		var paramObj = {
+			"userid" : $api.getStorage('userMsg').ID
+		};
+		$myapi.requestByPost(true, "加载中...", "GetGroupByUser", paramObj, function(ret, err) {
+			if (ret) {
+				var ary = JSON.parse(ret);
+				if (ary && ary.length > 0) {
+					ishavegroup = ary[0].IS_HAVEGROUP;
+				}
+			}
+		});
+	}
+
+	function funOpenArticle(tag) {
+		switch(tag.id) {
+			case 'jiyibi':
+				api.openWin({
+					name : 'jiyibi_window',
+					url : './jiyibi_window.html',
+					pageParam : {
+						name : tag.id// tag.querySelector('h6').innerHTML
+					}
+				});
+				break;
+			case 'jizhang':
+				if (ishavegroup == "0") {
+					$api.toast("没有群组", "无法进行记录！", 2000);
+				} else {
+					api.openWin({
+						name : 'jizhang_window',
+						url : './jizhang_window.html',
+						pageParam : {
+							name : tag.id// tag.querySelector('h6').innerHTML
+						}
+					});
+				}
+				break;
+			case "qunzu":
+				api.openWin({
+					name : 'qunzu_window',
+					url : './qunzu_window.html',
+					pageParam : {
+						name : tag.id// tag.querySelector('h6').innerHTML
+					}
+				});
+				break;
+			case "zhangdan":
+				api.openWin({
+					name : 'zhangdan_win',
+					url : './zhangdan_win.html',
+					pageParam : {
+						name : tag.id// tag.querySelector('h6').innerHTML
+					}
+				});
+				break;
+			default: //个人中心
+				api.openWin({
+					name : 'userinfo_win',
+					url : './userinfo_win.html',
+					pageParam : {
+						name : tag.id
+					}
+				});
+				break;
+		}
+	}
+
+	function GetIndexImg() {
+		var paramObj = {};
+		$myapi.requestByPost(true, "加载中...", "IndexBigImg", paramObj, function(ret, err) {
+			if (ret) {
+				var ary = JSON.parse(ret);
+				if (ary && ary.length > 0) {
+					var item = '';
+					for (var i = 0; i < ary.length; i++) {
+						item += '<div class="swipe-con">'
+						item += '<img style="height:140px;" src="' + ary[i].PATH + '"/>';
+						item += '</div>';
+					}
+				}
+				console.debug(item);
+				$api.html(ul, item);
+			}
+		});
+	}
+
+	function GetUserInfo() {
+		var paramObj = {
+			"userid" : $api.getStorage('userMsg').ID
+		};
+		$myapi.requestByPost(true, "加载中...", "GetUserInfo", paramObj, function(ret, err) {
+			if (ret) {
+				var ary = JSON.parse(ret);
+				if (ary && ary.length > 0) {
+					$api.html(uname, ary[0].TURENAME);
+					$api.html(uxiaofei, ary[0].XIAOFEI);
+				}
+			}
+		});
+	}
+</script>

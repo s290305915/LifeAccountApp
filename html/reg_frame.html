@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common_style.css"/>
+		<style>
+			.btndiv {
+				margin-top: 20px;
+				padding: 20px 25px;
+			}
+			.btn {
+				/*display: block;*/
+				width: 100%;
+				height: 44px;
+				color: #FFFFFF;
+				outline: none;
+				font-size: 1.1em;
+				border-radius: 4px;
+				background-color: #03a9f4;
+			}
+			.btn_reg {
+				/*display: block;*/
+				margin-top: 1.5em;
+				width: 100%;
+				height: 44px;
+				color: #FFFFFF;
+				outline: none;
+				font-size: 1.1em;
+				border-radius: 4px;
+				background-color: #03a9f4;
+			}
+			.btn.pressed {
+				background-color: rgb(130,178,228);
+			}
+			.btn_reg.pressed {
+				background-color: rgb(130,178,228);
+			}
+			.accoutDiv {
+				margin-top: 60px;
+				padding: 0px 25px;
+			}
+			.inputLabel {
+				display: block;
+				width: 100%;
+				padding: 10px 0px 0px 0px;
+				color: rgb(138,138,140);
+				letter-spacing: 1px;
+				font-size: 1.0em;
+			}
+			.accout_input {
+				display: block;
+				width: 95%;
+				padding: 8px 0px 8px 5%;
+				color: rgb(68,68,70);
+				letter-spacing: 1px;
+				font-size: 0.9em;
+				outline: none;
+				border-bottom: 1px solid rgb(210,218,228);
+			}
+			.bg_ground {
+			}
+		</style>
+		</style>
+	</head>
+	<body class="bg_ground">
+		<div class="accoutDiv">
+			<label class="inputLabel">用户名 <span style="color: red">*</span></label>
+			<input id="account" type="text" class="accout_input"/>
+			<label class="inputLabel">姓名 <span style="color: red">*</span></label>
+			<input id="turename" type="text" class="accout_input"/>
+			<label class="inputLabel">电话号码 <span style="color: red">*</span></label>
+			<input id="phone" type="tel" class="accout_input"/>
+			<label class="inputLabel">密码 <span style="color: red">*</span></label>
+			<input id="pwd" type="password" class="accout_input"/>
+		</div>
+		<div class="btndiv">
+			<button class="btn" tapmode="pressed" tap onclick="register()">
+				注册
+			</button>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/myapi.js"></script>
+	<script type="text/javascript">
+		var checkState;
+		apiready = function() {
+		};
+		function register() {
+			var acc = $api.trim($api.val($api.byId('account')));
+			var pwd = $api.trim($api.val($api.byId('pwd')));
+			var turename = $api.trim($api.val($api.byId('turename')));
+			var phone = $api.trim($api.val($api.byId('phone')));
+			if (acc == '') {
+				$myapi.showToast('请输入用户名！');
+				return;
+			}
+			if (pwd == '') {
+				$myapi.showToast('请输入密码！');
+				return;
+			}
+			if (turename == '') {
+				$myapi.showToast('请输入姓名！');
+				return;
+			}
+			if (phone == '') {
+				$myapi.showToast('请输入电话号码！');
+				return;
+			}
+			reg(acc, pwd, turename, phone);
+		}
+
+		function reg(name, pwd, turename, phone) {
+			//设备唯一标示
+			var deviceId = api.deviceId;
+			deviceId = deviceId.replace(/-/g, '');
+			var paramObj = {
+				"username" : name,
+				"pwd" : pwd,
+				"turename" : turename,
+				"phone" : phone,
+				deviceId : deviceId
+			};
+			$myapi.requestByPost(true, "注册中...", "Register", paramObj, function(ret, err) {
+				if (ret) {
+					var dit = JSON.parse(ret);
+					$api.toast(dit[0].TITLE, dit[0].MESSAGE, 1000);
+					if (dit[0].ISHAVE == "1") {
+						return;
+					}
+					api.alert({
+						msg : dit[0].TITLE + " " + dit[0].MESSAGE
+					});
+					api.closeWin({});
+				} else {
+					$myapi.showToast(err.msg);
+				}
+			});
+		}
+	</script>
+</html>

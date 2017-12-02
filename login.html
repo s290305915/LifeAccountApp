@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="./css/api.css"/>
+		<style>
+			#wrap {
+				height: 100%;
+				display: -webkit-box;
+				display: -webkit-flex;
+				-webkit-box-orient: vertical;
+				-webkit-flex-flow: column;
+			}
+			#main {
+				-webkit-box-flex: 1;
+				-webkit-flex: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			$api.setStorage('refreshbgcolor', '#eeeeee');
+			$api.setStorage('refreshfontcolor', '#000000');
+			api.openFrame({
+				name : 'login_frame',
+				url : './login_frame.html',
+				bounces : false,
+				vScrollBarEnabled : false,
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.winWidth,
+					h : api.winHeight
+				}
+			});
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				api.closeWidget({
+					silent : true
+				});
+			});
+		};
+	</script>
+</html>

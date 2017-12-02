@@ -1,0 +1,318 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>frame</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/magic-check.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/button.css"/>
+		<style>
+			html, body {
+				/*height: 100%;*/
+				min-width: 320px;
+			}
+			body {
+				font-size: 14px;
+				background-color: #F8F8F8;
+			}
+			* {
+				outline: 0;
+			}
+			.textarea {
+				margin: 5px 0;
+				height: 85px;
+				text-align: center;
+			}
+			textarea {
+				width: 96%;
+				height: 100%;
+				background-color: #ffffff;
+				border: 1px solid #E4E4E4;
+				padding: 5px;
+				resize: none;
+			}
+			.content {
+				padding: 10px;
+			}
+			.tie-title {
+				font-size: 20px;
+				line-height: 25px;
+				letter-spacing: 1px;
+			}
+			.form {
+				padding-bottom: 10px;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			.inputWarp {
+				/*margin-top: 30px;*/
+				margin-bottom: 5px;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+			}
+			.input {
+				border: 1px solid #E4E4E4;
+				width: 34%;
+				height: 30px;
+				background-color: #ffffff;
+				line-height: 30px;
+			}
+			.input_long {
+				border: 1px solid #E4E4E4;
+				width: 100%;
+				height: 30px;
+				background-color: #ffffff;
+				line-height: 30px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			.input input {
+				width: 96%;
+				padding-left: 5px;
+			}
+			.input:first-child {
+				border-right: none;
+			}
+			.buttonWrap {
+				-webkit-box-flex: 1;
+				-webkit-flex: 1;
+				flex: 1;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-box-pack: end;
+			}
+			.btndiv {
+				margin-top: 20px;
+				padding: 20px 25px;
+				width: 96%;
+			}
+			.btn {
+				display: block;
+				width: 100%;
+				height: 44px;
+				color: #FFFFFF;
+				outline: none;
+				font-size: 1.1em;
+				border-radius: 4px;
+				background-color: #03a9f4;
+			}
+			.btn.pressed {
+				background-color: rgb(130,178,228);
+			}
+			.button {
+				border: 1px solid #03a9f4;
+				background-color: #03a9f4;
+				color: #ffffff;
+				padding: 7px 14px;
+				text-align: center;
+				width: 100%;
+				height: 45px;
+			}
+			.comment-author {
+				font-size: 14px;
+				line-height: 1.25;
+				margin: 7px 0 5px 3px;
+				color: #323237;
+			}
+			.comment-content {
+				margin: 8px 5px 8px 3px;
+				line-height: 18px;
+				font-size: 16px;
+			}
+			.comment-oper {
+				text-align: right;
+				font-size: 14px;
+			}
+			.commentbox-wrap li a {
+				color: #1e50a2;
+			}
+			.comment-oper a {
+				padding: 5px;
+			}
+			.commentbox-wrap li {
+				padding: 7px 10px;
+				border-bottom: 1px solid #e5e5e5;
+				letter-spacing: 1px;
+			}
+			.comment-vote {
+				color: #ba2636;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<h3 class="tie-title">随手一记</h3>
+			<h5 style="color: red">请勿使用特殊字符，否则将导致保存不成功！</h5>
+			<br/>
+			<div class="form">
+				标题：
+				<div class="input_long">
+					<input type="text" placeholder=" 标题" id="tx_title">
+				</div>
+				花费：
+				<div class="input_long">
+					<input type="number" style="width: 100%;height: 31px;" placeholder="0.00" id="tx_price">
+				</div>
+				详细内容：
+				<div class="textarea">
+					<textarea placeholder="详细内容" id="tx_content"></textarea>
+				</div>
+			</div>
+			<h4 style="font-size: 20px;margin-top:15px">选择参与人</h4>
+		</div>
+		<ul class="commentbox-wrap" id="li_actor">
+			<!--<li>
+			<div class="opt">
+			<input class="magic-checkbox" type="checkbox" name="layout" id="c1">
+			<label for="c1">宝坤</label>
+			</div>
+			</li>
+			<li>
+			<div class="opt">
+			<input class="magic-checkbox" type="checkbox" name="layout" id="c1">
+			<label for="c1">玉芳</label>
+			</div>
+			</li>
+			<li>
+			<div class="opt">
+			<input class="magic-checkbox" type="checkbox" name="layout" id="c1">
+			<label for="c1">江Sir</label>
+			</div>
+			</li>
+			<li>
+			<div class="opt">
+			<input class="magic-checkbox" type="checkbox" name="layout" id="c1">
+			<label for="c1">大波</label>
+			</div>
+			</li>-->
+		</ul>
+		<div class="inputWarp">
+			<div class="btndiv">
+				<button class="btn" tapmode="pressed" tap onclick="SaveBill()">
+					提交
+				</button>
+			</div>
+			<!--<div class="buttonWrap">
+			<div class="button" id="btn_submit">
+			<input class="button blue" type="button" value="提交账单" onclick="SaveBill()" />
+			</div>
+			</div>-->
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/myapi.js"></script>
+		<script>
+			var V_list;
+			apiready = function() {
+				GetActor();
+			}
+			function SaveBill() {
+				var title = $api.val($api.byId('tx_title'));
+				var account = $api.val($api.byId('tx_price'));
+				var content = $api.val($api.byId('tx_content'));
+				var otherids = "";
+				var userid = $api.getStorage('userMsg').ID;
+				var selectPeoples = [];
+				var imgs = $api.domAll('.magic-checkbox');
+				for (var i = 0; i < imgs.length; i++) {
+					if (imgs[i].checked) {
+						var id = $api.attr(imgs[i], 'id');
+						selectPeoples.push(id);
+						otherids += id + ",";
+					}
+				}
+				console.debug("选中的ids:" + otherids + "!!" + selectPeoples);
+				console.debug("title:" + title + ",acc:" + account + ",cnt:" + content);
+				if (title == "" || title == null) {
+					api.alert({
+						msg : "请填写标题！"
+					});
+					return;
+				}
+				if (account == "" || account == null) {
+					api.alert({
+						msg : "请填写消费！"
+					});
+					return;
+				}
+				if (selectPeoples.length < 1) {
+					api.confirm({
+						title : "提示",
+						msg : "您未选择其他消费参与者，此次消费将会当作个人消费！", //，是否继续？
+						buttons : ["确定"]//, "取消"
+					}, function(ret, err) {
+						if (1 == ret.buttonIndex) {// 取消
+							//return;
+						}
+					});
+				}
+				//				// 去除特殊字符 \
+				//				title = title.replace('\\', '');
+				//				account = account.replace('\\', '');
+				//				content = content.replace('\\', '');
+				//				// 去除特殊字符 '
+				//				title = title.replace('\'', '');
+				//				account = account.replace('\'', '');
+				//				content = content.replace('\'', '');
+				//				// 去除特殊字符 "
+				//				title = title.replace('"', '');
+				//				account = account.replace('"', '');
+				//				content = content.replace('"', '');
+				var paramObj = {
+					"userid" : $api.getStorage('userMsg').ID,
+					"users" : otherids,
+					"title" : title,
+					"account" : account,
+					"content" : content
+				};
+				$myapi.requestByPost(true, "保存中...", "SaveBill_Jizhang", paramObj, function(ret, err) {
+					if (ret) {
+						var ary = JSON.parse(ret);
+						if (ary && ary.length > 0) {
+							//$api.toast(ary[0].TITLE, ary[0].MESSAGE, 2000);
+							api.alert({
+								msg : ary[0].TITLE + " " + ary[0].MESSAGE
+							});
+							if (ary[0].SUCCESS == "1") {
+								api.execScript({
+									name : 'win_home',
+									script : 'GetUserInfo()'//
+								});
+								api.closeWin();
+							}
+						}
+					}
+				});
+			}
+
+			function GetActor() {
+				V_list = $api.byId('li_actor');
+				var paramObj = {
+					"userid" : $api.getStorage('userMsg').ID
+				};
+				$myapi.requestByPost(true, "加载中...", "GetCurrentGroupActorByCurrentUser_Jizhang", paramObj, function(ret, err) {
+					if (ret) {
+						var ary = JSON.parse(ret);
+						if (ary && ary.length > 0) {
+							var item = '';
+							for (var i = 0; i < ary.length; i++) {
+								var n = i + 1;
+								item += '<li>';
+								item += '<div class="opt" style="margin-left:20px;">'
+								item += '<input class="magic-checkbox" type="checkbox" name="layout" id="c' + ary[i].ID + '">'
+								item += '<label for="c' + ary[i].ID + '">' + ary[i].NAME + '</label>'
+								item += '</div>'
+								item += '</li>'
+							}
+						}
+						console.debug(item);
+						$api.html(V_list, item);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

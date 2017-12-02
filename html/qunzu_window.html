@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>window</title>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+		<style>
+			#header {
+				text-align: center;
+				background-color: #ffffff;
+				color: #323237;
+				background-size: 9px 48px;
+				width: 100%;
+				height: 48px;
+				position: relative;
+			}
+			#main {
+				padding: 1em;
+			}
+			#footer {
+				height: 44px;
+				line-height: 44px;
+				background-color: #E5E5E5;
+				width: 100%;
+				text-align: center;
+			}
+			#footer h5 {
+				color: #323237;
+			}
+			/* main页面样式  */
+			#headerBanner {
+				text-align: center;
+				background-color: #E5E5E5;
+				background-size: 4px 48px;
+				width: 100%;
+				height: 48px;
+				position: relative;
+			}
+			#headerBanner .banner {
+				float: left;
+				position: relative;
+				z-index: 2;
+				width: 100%;
+				height: 48px;
+				line-height: 48px;
+				color: #323237;
+				text-align: left;
+			}
+			#headerBanner .banner.active {
+				color: #6ab494;
+				background-size: 20px 48px;
+			}
+			#headerBanner .banner_split {
+				width: 1px;
+				height: 30px;
+				background: #636363;
+				position: absolute;
+				z-index: 3;
+				top: 10px;
+			}
+			#headerBanner .banner_split.bs1 {
+				left: 25%;
+			}
+			#headerBanner .banner_split.bs2 {
+				left: 50%;
+			}
+			#headerBanner .banner_split.bs3 {
+				left: 75%;
+			}
+			/*选择城市按钮*/
+			#chooseCityBtn {
+				position: absolute;
+				left: 0;
+				width: 143px;
+				height: 48px;
+			}
+			#chooseCityBtn .chooseCityImg {
+				display: inline-block;
+				border: none;
+				outline: none;
+				width: 32px;
+				height: 32px;
+				float: left;
+				margin-left: 22px;
+				margin-top: 7px;
+			}
+			#chooseCityBtn .chooseCitySpan {
+				color: #323237;
+				line-height: 48px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body >
+	<header class="aui-bar aui-bar-nav" id="aui-header">
+			<a class="aui-btn aui-pull-left" tapmode onclick="closeWin()"> <span class="aui-iconfont aui-icon-left"></span> </a>
+			<div class="aui-title">
+				群组
+			</div>
+		</header>
+		<div id="wrap">
+			<div id="headerBanner">
+				<div class="banner frame_name active" >
+					这里你可以查看和对群组进行操作！
+				</div>
+			</div>
+			<div id="main"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+		api.parseTapmode();
+		var header = $api.byId('aui-header');
+		$api.fixStatusBar(header);
+		var headerPos = $api.offset(header);
+		var body_h = $api.offset($api.dom('body')).h;
+		api.openFrame({
+			name : 'qunzu_frame',
+			url : 'qunzu_frame1.html',
+			bounces : true,
+			rect : {
+				x : 0,
+				y : headerPos.h,
+				w : 'auto',
+				h : 'auto'
+			}
+		})
+	};
+	function closeWin() {
+		api.closeWin({
+		});
+	}
+		</script>
+</html>

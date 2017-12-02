@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+		<style>
+			.empty {
+				text-align: center;
+				/*padding: 120px 0;*/
+			}
+		</style>
+	</head>
+	<body>
+		<div id="List"></div>
+	</body>
+</html>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/myapi.js" ></script>
+<script type="text/javascript" src="../script/aui-collapse.js" ></script>
+<script type="text/javascript">
+	var isdata;
+	apiready = function() {
+		api.parseTapmode();
+		GetMonthList();
+	}
+	var collapse = new auiCollapse({
+		autoHide : false //是否自动隐藏已经展开的容器
+	});
+	function GetMonthList() {
+		var V_list = $api.byId('List');
+		var paramObj = {
+			"userid" : $api.getStorage('userMsg').ID
+		};
+		$myapi.requestByPost(true, "加载中...", "GetMonthList", paramObj, function(ret, err) {
+			if (ret) {
+				var ary = JSON.parse(ret);
+				if (ary && ary.length > 0) {
+					var item = '';
+					for (var i = 0; i < ary.length; i++) {
+						var n = i + 1;
+						isdata = ary[i].ISDATA;
+						item += '<section class="aui-content-padded">';
+						item += '<ul class="aui-list aui-collapse aui-border">';
+						item += '<div class="aui-collapse-item">';
+						item += '<li class="aui-list-item aui-collapse-header" tapmode onclick="AddDetails(' + ary[i].ISDATA + ',' + ary[i].YEAR + ',' + ary[i].MONTH + ',' + ary[i].GID + ',' + ary[i].UID + ')">';
+						item += '<div class="aui-list-item-inner">';
+						item += '<div class="aui-list-item-title">';
+						item += ary[i].YEAR + '年' + ary[i].MONTH + '月 总消费 ' + ary[i].AMOUNT + ' 元';
+						item += '</div>';
+						item += '<div class="aui-list-item-right">';
+						item += '<i class="aui-iconfont aui-icon-right aui-collapse-arrow"></i>';
+						item += '</div>';
+						item += '</div>';
+						item += '</li>';
+						item += '<div class="aui-collapse-content" >';
+						//内容
+						item += '</div>';
+						item += '</div>';
+						item += '</ul>';
+						item += '</section>';
+					}
+				}
+				$api.append(V_list, item);
+			}
+		});
+	}
+
+	function AddDetails(idata, y, m, gid, uid) {
+		console.debug(idata + "," + y + "," + m + "," + gid + "," + uid);
+		if (idata == "0" || idata == 0) {
+			$api.toast('无法查看', '没有数据可以查看!', 900);
+		} else {
+			api.openWin({
+				name : 'zhangdan_detail_win',
+				url : './zhangdan_detail_win.html',
+				pageParam : {
+					idata : idata,
+					y : y,
+					m : m,
+					gid : gid,
+					uid : uid
+				}
+			});
+		}
+	}
+</script>

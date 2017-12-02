@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html  style='height: 100%;'>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="./css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/common_style.css"/>
+		<style>
+			.imgDiv {
+				width: 100%;
+				text-align: center;
+				padding-top: 60px;
+			}
+			.topimg {
+				width: 20%;
+				vertical-align: middle;
+			}
+			.appName {
+				/*display: block;*/
+				font-size: 1.1em;
+				letter-spacing: 5px;
+				color: white;
+			}
+			.btndiv {
+				margin-top: 20px;
+				padding: 20px 25px;
+			}
+			.btn {
+				/*display: block;*/
+				width: 100%;
+				height: 44px;
+				color: #FFFFFF;
+				outline: none;
+				font-size: 1.1em;
+				border-radius: 4px;
+				background-color: #03a9f4;
+			}
+			.btn_reg {
+				/*display: block;*/
+				margin-top: 1.5em;
+				width: 100%;
+				height: 44px;
+				color: #FFFFFF;
+				outline: none;
+				font-size: 1.1em;
+				border-radius: 4px;
+				background-color: #03a9f4;
+			}
+			.btn.pressed {
+				background-color: rgb(130,178,228);
+			}
+			.btn_reg.pressed {
+				background-color: rgb(130,178,228);
+			}
+			.accoutDiv {
+				margin-top: 60px;
+				padding: 0px 25px;
+			}
+			.inputLabel {
+				display: block;
+				width: 100%;
+				padding: 10px 0px 0px 0px;
+				color: white;
+				/*rgb(138,138,140);*/
+				letter-spacing: 1px;
+				font-size: 1.0em;
+			}
+			.accout_input {
+				display: block;
+				width: 95%;
+				padding: 8px 0px 8px 5%;
+				color: white;
+				/*rgb(68,68,70);*/
+				letter-spacing: 1px;
+				font-size: 0.9em;
+				outline: none;
+				border-bottom: 1px solid rgb(210,218,228);
+			}
+			.bg_ground {
+				height: 100%;
+				/*background-size: 100%;*/
+				/*background: url("./image/login_bg.png") no-repeat;*/
+				background-size: cover;
+				background-attachment: fixed;
+				background-image: url("./image/login_bg.png");
+				overflow: hidden;
+			}
+		</style>
+		</style>
+	</head>
+	<body class="bg_ground">
+		<div class="imgDiv">
+			<img class="topimg" src="./image/log150.png"  />
+			<label class="appName">生命中的那笔账</label>
+		</div>
+		<div class="accoutDiv">
+			<label class="inputLabel">用户名</label>
+			<input id="account" type="text" class="accout_input"/>
+			<label class="inputLabel">密码</label>
+			<input id="pwd" type="password" class="accout_input"/>
+		</div>
+		<div class="btndiv">
+			<button class="btn" tapmode="pressed" tap onclick="logins()">
+				登陆
+			</button>
+			<br />
+			<button class="btn_reg" tapmode="pressed" tap onclick="register()">
+				注册
+			</button>
+		</div>
+	</body>
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script type="text/javascript" src="./script/myapi.js"></script>
+	<script type="text/javascript">
+		var checkState;
+		apiready = function() {
+			var lastAccount = $api.getStorage('loginName');
+			lastAccount = lastAccount ? lastAccount : '';
+			$api.val($api.byId('account'), lastAccount);
+			var lastPwd = $api.getStorage('loginPwd');
+			lastPwd = lastPwd ? lastPwd : '';
+			$api.val($api.byId('pwd'), lastPwd);
+		};
+		function logins() {
+			var acc = $api.trim($api.val($api.byId('account')));
+			var pwd = $api.trim($api.val($api.byId('pwd')));
+			if (acc != '' && pwd != '') {
+				login(acc, pwd);
+			} else {
+				$myapi.showToast('请输入用户名和密码！');
+			}
+		}
+
+		function register() {
+			api.openWin({
+				name : 'reg_win',
+				url : './html/reg_win.html',
+				pageParam : {
+					name : ''
+				},
+				slidBackEnabled : false
+			});
+		}
+
+		function login(name, pwd) {
+			//设备唯一标示
+			var deviceId = api.deviceId;
+			deviceId = deviceId.replace(/-/g, '');
+			var paramObj = {
+				"username" : name,
+				"pwd" : pwd,
+				deviceId : deviceId
+			};
+			$myapi.requestByPost(true, "登录中...", "Login", paramObj, function(ret, err) {
+				if (ret) {
+					var dit = JSON.parse(ret);
+					//alert(ret);
+					var LoginState = dit.LoginState;
+					var LoginRemark = dit.LoginRemark;
+					if (LoginState == true) {
+						$api.setStorage('userMsg', dit);
+						api.openWin({
+							//name : 'main_window',
+							name : 'win_home',
+							//url : './html/manager/main_window.html',
+							url : './html/win_home.html',
+							slidBackEnabled : false
+						});
+					} else {
+						$myapi.showToast(LoginRemark);
+					}
+				} else {
+					$myapi.showToast(err.msg);
+				}
+			});
+			$api.setStorage('loginName', name);
+			$api.setStorage('loginPwd', pwd);
+		}
+	</script>
+</html>
