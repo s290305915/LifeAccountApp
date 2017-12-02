@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>AUI快速完成布局</title>
-		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
-		<style type="text/css">
-			.goods-title {
-				color: #757575 !important;
-			}
-			.goods-price {
-				color: #666666 !important;
-				font-weight: 700;
-			}
-		</style>
-	</head>
-	<body>
-		<section class="aui-content">
-			<div class="aui-card-list aui-border-t aui-border-b" style="padding-top:1.5rem">
-				<div class="aui-card-list-header aui-card-list-user">
-					<div class="aui-card-list-user-avatar">
-						<img src="../image/zongduanIconActive.png">
-					</div>
-					<div class="aui-card-list-user-name">
-						<div class="aui-font-size-16">
-							<span  id="title">2017年2月账单详情 </span>
-							<i class="aui-iconfont aui-icon-down aui-font-size-12"></i>
-						</div>
-						<small>已更新</small>
-					</div>
-					<div class="aui-card-list-user-info">
-						截止到今日：2017年2月10日
-					</div>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>AUI快速完成布局</title>
+	<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+	<style type="text/css">
+		.goods-title {
+			color: #757575 !important;
+		}
+
+		.goods-price {
+			color: #666666 !important;
+			font-weight: 700;
+		}
+	</style>
+</head>
+
+<body>
+	<section class="aui-content">
+		<div class="aui-card-list aui-border-t aui-border-b" style="padding-top:1.5rem">
+			<div class="aui-card-list-header aui-card-list-user">
+				<div class="aui-card-list-user-avatar">
+					<img src="../image/zongduanIconActive.png">
 				</div>
-				<div class="aui-card-list-content aui-border-t" style="margin-left: 3.5rem;">
-					<ul class="aui-list aui-list-noborder" id="datalist">
+				<div class="aui-card-list-user-name">
+					<div class="aui-font-size-16">
+						<span id="title">2017年2月账单详情 </span>
+						<i class="aui-iconfont aui-icon-down aui-font-size-12"></i>
+					</div>
+					<small>已更新</small>
+				</div>
+				<div class="aui-card-list-user-info">
+					截止到今日：2017年2月10日
+				</div>
+			</div>
+			<div class="aui-card-list-content aui-border-t" style="margin-left: 3.5rem;">
+				<ul class="aui-list aui-list-noborder" id="datalist">
 					<!--	<div class="aui-list-item aui-padded-l-0">
 							<div class="aui-list-item-inner">
 								<div class="aui-list-item-title aui-font-size-14 goods-title">
@@ -76,71 +79,73 @@
 								</div>
 							</div>
 						</div>-->
-					</ul>
-				</div>
-				<div class="aui-card-list-footer aui-border-t">
-					<div></div>
-					<div>
-						<div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10">
-							有意见
-						</div>
-						<div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning">
-							赞一个
-						</div>
+				</ul>
+			</div>
+			<div class="aui-card-list-footer aui-border-t">
+				<div></div>
+				<div>
+					<div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10">
+						有意见
+					</div>
+					<div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning">
+						赞一个
 					</div>
 				</div>
 			</div>
-		</section>
-	</body>
-	<script type="text/javascript" src="../script/api.js" ></script>
-	<script type="text/javascript" src="../script/myapi.js" ></script>
-	<script type="text/javascript">
-		var ym, gid;
-		apiready = function() {
+		</div>
+	</section>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/myapi.js"></script>
+<script type="text/javascript">
+	var ym, gid;
+	apiready = function() {
 		//alert(api.pageParam.idata);
-			var title = $api.byId('title');
-			console.debug(api.pageParam.y);
-			var y = api.pageParam.y;
-			var m = api.pageParam.m;
-			if (m < 10) {
-				m = "0" + m;
-			}
-			var i_title = y + '年' + m + '月 账单结算';
-			ym = y + m;
-			$api.html(title, i_title);
-			var uid = api.pageParam.uid;
-			gid = api.pageParam.gid;
-			GetZDDetailList();
+		var title = $api.byId('title');
+		console.debug(api.pageParam.y);
+		var y = api.pageParam.y;
+		var m = api.pageParam.m;
+		if (m < 10) {
+			m = "0" + m;
 		}
-		function GetZDDetailList() {
-			var V_list = $api.byId('datalist');
-			var paramObj = {
-				"userid" : $api.getStorage('userMsg').ID,
-				"ym" : ym,
-				"gid" : gid
-			};
-			$myapi.requestByPost(true, "加载中...", "GetZDDetailList", paramObj, function(ret, err) {
-				if (ret) {
-					var ary = JSON.parse(ret);
-					if (ary && ary.length > 0) {
-						var item = '';
-						for (var i = 0; i < ary.length; i++) {
-							var n = i + 1;
-							item += '<div class="aui-list-item aui-padded-l-0">';
-							item += '<div class="aui-list-item-inner">';
-							item += '<div class="aui-list-item-title aui-font-size-14 goods-title">';
-							item += ary[i].NAME+' 应'+ary[i].SHOULD;
-							item += '</div>';
-							item += '<div class="aui-list-item-right goods-price">';
-							item += '	￥'+ary[i].MUCH;
-							item += '</div>';
-							item += '</div>';
-							item += '</div>';
-						}
+		var i_title = y + '年' + m + '月 账单结算';
+		ym = y + "" + m.toString();
+		$api.html(title, i_title);
+		var uid = api.pageParam.uid;
+		gid = api.pageParam.gid;
+		GetZDDetailList();
+	}
+
+	function GetZDDetailList() {
+		var V_list = $api.byId('datalist');
+		var paramObj = {
+			"userid": $api.getStorage('userMsg').ID,
+			"ym": ym,
+			"gid": gid
+		};
+		$myapi.requestByPost(true, "加载中...", "GetZDDetailList", paramObj, function(ret, err) {
+			if (ret) {
+				var ary = JSON.parse(ret);
+				if (ary && ary.length > 0) {
+					var item = '';
+					for (var i = 0; i < ary.length; i++) {
+						var n = i + 1;
+						item += '<div class="aui-list-item aui-padded-l-0">';
+						item += '<div class="aui-list-item-inner">';
+						item += '<div class="aui-list-item-title aui-font-size-14 goods-title">';
+						item += ary[i].NAME + ' 应' + ary[i].SHOULD;
+						item += '</div>';
+						item += '<div class="aui-list-item-right goods-price">';
+						item += '	￥' + ary[i].MUCH;
+						item += '</div>';
+						item += '</div>';
+						item += '</div>';
 					}
-					$api.html(V_list, item);
 				}
-			});
-		}
-	</script>
+				$api.html(V_list, item);
+			}
+		});
+	}
+</script>
+
 </html>
